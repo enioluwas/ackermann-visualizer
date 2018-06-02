@@ -1,6 +1,6 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////  Ackermann Visualizer - A basic tool for visually tracing the recursive call stack in the Ackermann–Péter function  ////
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /* MIT License
 *
 * Copyright (c) 2018, Enioluwa Segun
@@ -135,7 +135,7 @@ int main(int argc, char* argv[])
 {
 	if (argc < 3)
 	{
-		printf("argument_error: Provide two arguments, %d provided", argc - 1);
+		printf("argument_error: Provide two arguments, %d provided\n", argc - 1);
 		return 1;
 	}
 	
@@ -144,12 +144,12 @@ int main(int argc, char* argv[])
 
 	if (m < 0 || n < 0)
 	{
-		puts("argument_error: Invalid argument. use nonnegative integers");
+		puts("argument_error: Invalid argument. use nonnegative integers\n");
 		return 1;
 	}
 	else if (m > 4)
 	{
-		puts("argument_error: Exponentiation past tetration: ackermann(m > 4, n > 0) cannot be evaluated in reasonable time with this recursive implementation");
+		puts("argument_error: Exponentiation past tetration: ackermann(m > 4, n > 0) cannot be evaluated in reasonable time with this recursive implementation\n");
 		return 1;
 	}
 
@@ -161,7 +161,7 @@ int main(int argc, char* argv[])
 		FILE* fout = fopen(filename, "w+");
 		if (!fout)
 		{
-			printf("file_error: Failed to open file: %s", filename);
+			printf("file_error: Failed to open file: %s\n", filename);
 			return 1;
 		}
 
