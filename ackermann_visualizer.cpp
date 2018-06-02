@@ -31,6 +31,8 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
+#define MAX_LINE_LENGTH 1024
+
 struct Output
 {
 	public:
@@ -97,10 +99,8 @@ struct FileOutput : Output
 
 static unsigned long counter = 0;
 static Output* output;
-static const char argument_error[] = "argument_error: This will overflow the stack";
-static unsigned int max_line_length = 1024;
 
-unsigned int ackermann(unsigned int m, unsigned int n, char s[] = "%s");
+unsigned int ackermann(unsigned int m, unsigned int n, char s[] = (char *)"%s");
 
 unsigned int ackermann(unsigned int m, unsigned int n, char s[])
 {
@@ -110,7 +110,7 @@ unsigned int ackermann(unsigned int m, unsigned int n, char s[])
 		char * s3 = (char *)malloc(strlen(s) + 32);
 		snprintf(s2, 10, "A(%d, %d)", m, n);
 		snprintf(s3, strlen(s) + 18, s, s2);
-		if (strlen(s3) <= max_line_length)
+		if (strlen(s3) <= MAX_LINE_LENGTH)
 			output->write_line(s3);
 		else
 			output->write_line("...");
