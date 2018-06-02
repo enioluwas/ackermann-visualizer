@@ -47,7 +47,7 @@ struct ConsoleOutput : Output
 	public:
 		ConsoleOutput() {}
 		~ConsoleOutput() {}
-		
+
 		bool write_line(const char * buffer) override
 		{
 			bool did = puts(buffer);
@@ -70,16 +70,16 @@ struct FileOutput : Output
 	private:
 		FILE * fout;
 	public:
-		FileOutput(FILE * fout) 
+		FileOutput(FILE * fout)
 		{
 			this->fout = fout;
 		}
-		
-		~FileOutput() 
+
+		~FileOutput()
 		{
 			fclose(fout);
 		}
-		
+
 		bool write_line(const char * buffer) override
 		{
 			bool did = fprintf(this->fout, "%s\n", buffer);
@@ -138,7 +138,7 @@ int main(int argc, char* argv[])
 		printf("argument_error: Provide two arguments, %d provided\n", argc - 1);
 		return 1;
 	}
-	
+
 	int m = strtol(argv[1], nullptr, 10);
 	int n = strtol(argv[2], nullptr, 10);
 

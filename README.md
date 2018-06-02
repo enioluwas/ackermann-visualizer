@@ -29,7 +29,7 @@ clang++ -Wall -std=c++11 ackermann_visualizer.cpp -o ackermann_visualizer
 ### Example
 
 ```bash
- ackermann_visualizer 2 2 
+ ackermann_visualizer 2 2
  ```
 
  Output:
@@ -48,11 +48,11 @@ Run time: 0.000000 seconds
 
 #### Note
 
-This program may crash with high enough input values due to a recursion stack overlow. The Ackermann call stack grows very quickly.
+This program may crash with high enough input values due to a recursion stack overflow. The Ackermann call stack grows very quickly.
 
 #### Why?
 
-Examining the defintion of the function, Let RA(m, n) define the number of calls to A(m, n). 
+Examining the definition of the function, Let RA(m, n) define the number of calls to A(m, n).
 
 <img src="https://latex.codecogs.com/gif.latex?RA(m,n)=&space;\begin{cases}&space;1&space;&&space;\text{for&space;}&space;m=0\\&space;1&space;&plus;&space;RA(m-1,&space;1)&space;&&space;\text{for&space;}&space;m>0&space;\text{&space;and&space;}&space;n=0\\&space;1&space;&plus;&space;RA(m,&space;n-1)&space;&plus;&space;RA(m-1,&space;A(m,&space;n-1))&space;&&space;\text{for&space;}&space;m>0&space;\text{&space;and&space;}n>0&space;\\&space;\end{cases}" title="RA(m,n)= \begin{cases} 1 & \text{for } m=0\\ 1 + RA(m-1, 1) & \text{for } m>0 \text{ and } n=0\\ 1 + RA(m, n-1) + RA(m-1, A(m, n-1)) & \text{for } m>0 \text{ and }n>0 \\ \end{cases}" alt="RA(m, n)"/>
 
@@ -74,7 +74,7 @@ And even crazier:
 
 [Source](https://math.stackexchange.com/questions/2511594/ackermann-function-how-to-calculate-the-number-of-times-it-calls-itself?answertab=votes#tab-top)
 
-It is then evident how qucikly one can hit the limit of the stack size even for small integer input. Also, I doubt most of the output would be useful visually for computations with that level of recursion. This program is however quite nice for input that produces smaller output.
+It is then evident how quickly one can hit the limit of the stack size even for small integer input. Also, I doubt most of the output would be useful visually for computations with that level of recursion. This program is however quite nice for input that produces smaller output.
 
 ## License
 
