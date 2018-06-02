@@ -33,72 +33,8 @@
 
 #define MAX_LINE_LENGTH 1024
 
-struct Output
-{
-	public:
-		Output() {}
-		virtual ~Output() {}
-		virtual bool write_line(const char * buffer) { return false; }
-		virtual bool writef(const char * format, ...) { return false; };
-};
-
-struct ConsoleOutput : Output
-{
-	public:
-		ConsoleOutput() {}
-		~ConsoleOutput() {}
-
-		bool write_line(const char * buffer) override
-		{
-			bool did = puts(buffer);
-			if(did)
-				fflush(stdout);
-			return did;
-		}
-		bool writef(const char * format, ...) override
-		{
-			va_list args;
-			va_start(args, format);
-			bool did = vprintf(format, args);
-			va_end(args);
-			return did;
-		}
-};
-
-struct FileOutput : Output
-{
-	private:
-		FILE * fout;
-	public:
-		FileOutput(FILE * fout)
-		{
-			this->fout = fout;
-		}
-
-		~FileOutput()
-		{
-			fclose(fout);
-		}
-
-		bool write_line(const char * buffer) override
-		{
-			bool did = fprintf(this->fout, "%s\n", buffer);
-			if (did)
-				fflush(this->fout);
-			return did;
-		}
-		bool writef(const char * format, ...) override
-		{
-			va_list args;
-			va_start(args, format);
-			bool did = vfprintf(this->fout, format, args);
-			va_end(args);
-			return did;
-		}
-};
-
 static unsigned long counter = 0;
-static Output* output;
+static FILE* stream;
 
 unsigned int ackermann(unsigned int m, unsigned int n, char s[] = (char *)"%s");
 
@@ -111,9 +47,10 @@ unsigned int ackermann(unsigned int m, unsigned int n, char s[])
 		snprintf(s2, 10, "A(%d, %d)", m, n);
 		snprintf(s3, strlen(s) + 18, s, s2);
 		if (strlen(s3) <= MAX_LINE_LENGTH)
-			output->write_line(s3);
+			fprintf(stream,"%s\n", s3);
 		else
-			output->write_line("...");
+			fputs("...\n", stream);
+		fflush(stream);
 	}
 
 	if (m == 0)
@@ -158,25 +95,24 @@ int main(int argc, char* argv[])
 		char * rel = (char *)malloc(strlen("./") + strlen(argv[3]));
 		snprintf(rel, strlen("./") + strlen(argv[3]), "%s", "./");
 		const char* filename = strcat(rel, argv[3]);
-		FILE* fout = fopen(filename, "w+");
-		if (!fout)
+		 stream = fopen(filename, "w+");
+		if (!stream)
 		{
 			printf("file_error: Failed to open file: %s\n", filename);
 			return 1;
 		}
-
-		output = new FileOutput(fout);
 	}
 	else
-		output = new ConsoleOutput();
+		stream = stdout;
 
 	clock_t begin = clock();
-	output->writef("Value: %d\n", ackermann(m, n));
+	fprintf(stream,"Value: %d\n", ackermann(m, n));
 	clock_t end = clock();
 	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-	output->writef("Number of calls: %d\n", counter);
-	output->writef("Run time: %f seconds\n", time_spent);
-
-	delete output;
+	fprintf(stream, "Number of calls: %d\n", counter);
+	fprintf(stream, "Run time: %f seconds\n", time_spent);
+	fflush(stream);
+	fclose(stream);
+	
 	return 0;
 }
