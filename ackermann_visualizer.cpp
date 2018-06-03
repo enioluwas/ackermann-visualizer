@@ -34,14 +34,13 @@
 
 #define MAX_LINE_LENGTH 1024
 
-static unsigned long counter = 0;
+static size_t counter = 0;
 static FILE* stream;
 
-size_t ackermann(size_t m, size_t n, std::string s = "%s");
-
-size_t ackermann(size_t m, size_t n, std::string s)
+size_t ackermann(size_t m, size_t n, std::string s = "%s")
 {
 	counter++;
+
 	{
 		size_t s2_length = snprintf(nullptr, 0, "A(%zu, %zu)", m, n) + 1;
 		std::unique_ptr<char[]> s2(new char[s2_length]);
@@ -80,7 +79,7 @@ int main(int argc, char* argv[])
 	if (argc < 3)
 	{
 		printf("argument_error: Provide two arguments, %d provided\n", argc - 1);
-		return 1;
+		return EXIT_FAILURE;
 	}
 
 	int m = strtol(argv[1], nullptr, 10);
@@ -89,12 +88,12 @@ int main(int argc, char* argv[])
 	if (m < 0 || n < 0)
 	{
 		puts("argument_error: Invalid argument. use nonnegative integers\n");
-		return 1;
+		return EXIT_FAILURE;
 	}
 	else if (m > 4)
 	{
 		puts("argument_error: Exponentiation past tetration: ackermann(m > 4, n > 0) cannot be evaluated in reasonable time with this recursive implementation\n");
-		return 1;
+		return EXIT_FAILURE;
 	}
 
 	if (argc > 3)
@@ -105,7 +104,7 @@ int main(int argc, char* argv[])
 		if (!stream)
 		{
 			printf("file_error: Failed to open file: %s\n", filename.c_str());
-			return 1;
+			return EXIT_FAILURE;
 		}
 	}
 	else
@@ -115,9 +114,9 @@ int main(int argc, char* argv[])
 	fprintf(stream, "Value: %zu\n", ackermann(m, n));
 	clock_t end = clock();
 	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-	fprintf(stream, "Number of calls: %lu\n", counter);
+	fprintf(stream, "Number of calls: %zu\n", counter);
 	fprintf(stream, "Run time: %f seconds\n", time_spent);
 	fclose(stream);
 
-	return 0;
+	return EXIT_SUCCESS;
 }
