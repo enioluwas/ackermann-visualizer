@@ -54,7 +54,6 @@ size_t ackermann(size_t m, size_t n, std::string s = "%s")
 			fprintf(stream, "%s\n", s3.get());
 		else
 			fputs("...\n", stream);
-		fflush(stream);
 	}
 
 	if (m == 0)
@@ -63,9 +62,9 @@ size_t ackermann(size_t m, size_t n, std::string s = "%s")
 	if (n == 0)
 		return ackermann(m - 1, 1, s);
 
-	size_t s4_length = snprintf(nullptr, 0, "A(%lu, %%s)", m - 1) + 1;
+	size_t s4_length = snprintf(nullptr, 0, "A(%zu, %%s)", m - 1) + 1;
 	std::unique_ptr<char[]> s4(new char[s4_length]);
-	snprintf(s4.get(), s4_length, "A(%lu, %%s)", m - 1);
+	snprintf(s4.get(), s4_length, "A(%zu, %%s)", m - 1);
 
 	size_t s5_length = snprintf(nullptr, 0, s.c_str(), s4.get()) + 1;
 	std::unique_ptr<char[]> s5(new char[s5_length]);
@@ -117,7 +116,6 @@ int main(int argc, char* argv[])
 	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
 	fprintf(stream, "Number of calls: %zu\n", counter);
 	fprintf(stream, "Run time: %f seconds\n", time_spent);
-	fflush(stream);
 	fclose(stream);
 
 	return EXIT_SUCCESS;
