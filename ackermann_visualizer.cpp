@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
 	if (argc > 3)
 	{
 		std::string filename = "./";
-		filename += *argv[3];
+		filename += argv[3];
 		stream = fopen(filename.c_str(), "w+");
 		if (!stream)
 		{
