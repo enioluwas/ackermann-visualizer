@@ -22,7 +22,7 @@ clang++ -Wall -std=c++11 ackermann_visualizer.cpp -o ackermann_visualizer
  ackermann_visualizer m n [filename]
  ```
 
-- m: positive integer m in A(m, m)
+- m: positive integer m in A(m, n)
 - n: positive integer n in A(m, n)
 - filename: optionally output to a file instead of console
 
